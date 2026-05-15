@@ -15,14 +15,13 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
-// Database Connection [cite: 21, 31]
+// Database Connection
 mongoose.connect('mongodb://127.0.0.1:27017/kuyatabs_db')
     .then(() => console.log("Connected to MongoDB"))
     .catch(err => console.log(err));
 
-// --- AUTHENTICATION ROUTES --- 
+// --- AUTHENTICATION ROUTES ---
 
-// Sign Up Route
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
     const newUser = new User({ username, password, role: 'user' });
@@ -30,7 +29,6 @@ app.post('/register', async (req, res) => {
     res.json({ message: "User registered!" });
 });
 
-// Login Route 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username, password });
@@ -41,11 +39,10 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Password Reset Route (No Internet Required)
 app.post('/reset-password', async (req, res) => {
     const { username, newPassword } = req.body;
     try {
-        const user = await User.findOneAndUpdate({ username }, { password: newPassword }, { new: true });
+        const user = await User.findOneAndUpdate({ username }, { password: newPassword }, { returnDocument: 'after' });
         if (user) {
             res.json({ success: true, message: "Password reset successful!" });
         } else {
@@ -56,7 +53,7 @@ app.post('/reset-password', async (req, res) => {
     }
 });
 
-// --- USER MANAGEMENT ROUTES --- 
+// --- USER MANAGEMENT ROUTES ---
 
 // 1. READ: Get all users
 app.get('/api/users', async (req, res) => {
@@ -68,18 +65,24 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
-// 2. UPDATE: Change User Role (Promote/Demote) [cite: 31]
-app.put('/api/users/:id/role', async (req, res) => {
-    const { role } = req.body;
+// 2. UPDATE: Full User Update (Username, Password, and Role)
+app.put('/api/users/:id', async (req, res) => {
+    const { username, password, role } = req.body;
     try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, { role }, { new: true });
+        let updateData = { username, role };
+        // Only update password if a new one is provided
+        if (password && password.trim() !== "") {
+            updateData.password = password;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, updateData, { returnDocument: 'after' });
         res.json(updatedUser);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-// 3. DELETE: Remove a user account [cite: 31]
+// 3. DELETE: Remove a user account
 app.delete('/api/users/:id', async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id);
@@ -89,7 +92,7 @@ app.delete('/api/users/:id', async (req, res) => {
     }
 });
 
-// --- MENU CRUD ROUTES --- [cite: 12, 14, 16]
+// --- MENU CRUD ROUTES ---
 
 app.post('/api/menu', upload.single('photo'), async (req, res) => {
     try {
@@ -119,7 +122,7 @@ app.put('/api/menu/:id', upload.single('photo'), async (req, res) => {
         const { name, description, price } = req.body;
         let updateData = { name, description, price };
         if (req.file) updateData.photo = req.file.filename;
-        const updatedDish = await Menu.findByIdAndUpdate(req.params.id, updateData, { new: true });
+        const updatedDish = await Menu.findByIdAndUpdate(req.params.id, updateData, { returnDocument: 'after' });
         res.json(updatedDish);
     } catch (err) {
         res.status(500).json({ error: err.message });
