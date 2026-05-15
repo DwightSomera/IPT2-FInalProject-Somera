@@ -8,7 +8,6 @@ const Dashboard = () => {
     const [value, setValue] = useState(0);
     const navigate = useNavigate();
 
-    // Get the current user's role and name from storage
     const role = localStorage.getItem('userRole');
     const userName = localStorage.getItem('userName');
 
@@ -33,16 +32,13 @@ const Dashboard = () => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'background.paper' }}>
                 <Tabs value={value} onChange={(e, newValue) => setValue(newValue)} centered>
                     <Tab label="Manage Menu" />
-                    {/* ONLY SHOW THIS TAB IF THE USER IS AN ADMIN */}
                     {role === 'admin' && <Tab label="Manage Users" />}
                 </Tabs>
             </Box>
 
-            <Box sx={{ p: 3 }}>
-                {/* Always allow access to Menu Management */}
+            {/* STRETCHED: removed px from this Box to let inner containers handle it */}
+            <Box sx={{ py: 3 }}>
                 {value === 0 && <MenuManagement />}
-                
-                {/* ONLY SHOW USER MANAGEMENT CONTENT IF TAB IS 1 AND ROLE IS ADMIN */}
                 {value === 1 && role === 'admin' && <UserManagement />}
             </Box>
         </Box>

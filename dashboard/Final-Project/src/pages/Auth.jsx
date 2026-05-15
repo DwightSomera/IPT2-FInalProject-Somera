@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
-    const [mode, setMode] = useState('login'); // 'login' or 'forgot'
+    const [mode, setMode] = useState('login'); 
     const [form, setForm] = useState({ username: '', password: '', newPassword: '' });
     const navigate = useNavigate();
 
@@ -33,8 +33,9 @@ const Auth = () => {
     };
 
     return (
-        <Container maxWidth="xs" style={{ marginTop: '100px' }}>
-            <Paper elevation={3} style={{ padding: '20px', borderTop: '4px solid #e65100' }}>
+        /* STRETCHED: maxWidth={false} ensures the background fills the screen */
+        <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+            <Paper elevation={3} sx={{ padding: '20px', borderTop: '4px solid #e65100', width: '100%', maxWidth: '400px' }}>
                 <Typography variant="h5" align="center" gutterBottom sx={{ fontWeight: 700 }}>
                     {mode === 'login' ? "Staff Sign In" : "Reset Password"}
                 </Typography>

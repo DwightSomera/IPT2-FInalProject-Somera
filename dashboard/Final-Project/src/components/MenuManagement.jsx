@@ -12,7 +12,6 @@ const MenuManagement = () => {
     const [formData, setFormData] = useState({ name: '', description: '', price: '', photo: null });
     const [editId, setEditId] = useState(null);
 
-    // 1. Fetch all menu items on load
     useEffect(() => {
         fetchMenu();
     }, []);
@@ -40,15 +39,11 @@ const MenuManagement = () => {
 
         try {
             if (editId) {
-                // Update existing item
                 await axios.put(`http://localhost:5000/api/menu/${editId}`, data);
                 setEditId(null);
             } else {
-                // Create new item
                 await axios.post('http://localhost:5000/api/menu', data);
             }
-            
-            // Reset form and refresh list
             setFormData({ name: '', description: '', price: '', photo: null });
             fetchMenu();
             alert("Menu updated successfully!");
@@ -75,7 +70,8 @@ const MenuManagement = () => {
     };
 
     return (
-        <Container sx={{ mt: 2 }}>
+        /* STRETCHED: maxWidth={false} and px: 4 */
+        <Container maxWidth={false} sx={{ mt: 2, px: 4 }}>
             <Typography variant="h5" align="center" gutterBottom color="secondary">
                 Menu Management
             </Typography>

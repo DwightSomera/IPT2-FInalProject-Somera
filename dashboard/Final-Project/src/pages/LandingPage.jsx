@@ -20,9 +20,9 @@ const LandingPage = () => {
 
     return (
         <Box>
-            {/* Navigation Bar */}
             <AppBar position="sticky" sx={{ backgroundColor: '#ff9800' }}>
-                <Toolbar>
+                {/* STRETCHED: Using Box with px instead of fixed Toolbar width */}
+                <Toolbar sx={{ px: 4 }}>
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>KuyaTabs Tapsihan</Typography>
                     <Button color="inherit" href="#about">About</Button>
                     <Button color="inherit" href="#menu">Menu</Button>
@@ -31,35 +31,35 @@ const LandingPage = () => {
                 </Toolbar>
             </AppBar>
 
-            {/* Hero Section */}
             <Box sx={{ bgcolor: '#f5f5f5', py: 10, textAlign: 'center' }}>
                 <Typography variant="h2" fontWeight="bold">Best Tapsi in Nueva Vizcaya</Typography>
                 <Typography variant="h5" sx={{ mt: 2 }}>Home of the authentic local flavors.</Typography>
             </Box>
 
-            {/* About Section */}
-            <Container id="about" sx={{ py: 8 }}>
+            {/* STRETCHED: maxWidth={false} */}
+            <Container id="about" maxWidth={false} sx={{ py: 8, px: 6 }}>
                 <Typography variant="h4" gutterBottom align="center">Our Story</Typography>
-                <Typography variant="body1" align="center" sx={{ maxWidth: 800, mx: 'auto' }}>
+                <Typography variant="body1" align="center" sx={{ maxWidth: 1000, mx: 'auto' }}>
                     KuyaTabs Tapsihan started with a simple goal: to provide affordable and delicious meals
-                    to the people of Nueva Vizcaya[cite: 22]. From our secret tapsi marinade to our 
+                    to the people of Nueva Vizcaya. From our secret tapsi marinade to our 
                     signature fried rice, every dish is served with local love.
                 </Typography>
             </Container>
 
-            {/* Menu Section (Dynamic) */}
             <Box id="menu" sx={{ bgcolor: '#fff', py: 8 }}>
-                <Container>
+                {/* STRETCHED: maxWidth={false} */}
+                <Container maxWidth={false} sx={{ px: 6 }}>
                     <Typography variant="h4" gutterBottom align="center">Our Menu</Typography>
                     <Grid container spacing={4}>
                         {menu.map((item) => (
-                            <Grid item key={item._id} xs={12} sm={6} md={4}>
+                            <Grid item key={item._id} xs={12} sm={6} md={4} lg={3}>
                                 <Card elevation={4}>
                                     <CardMedia
                                         component="img"
-                                        height="200"
+                                        height="250"
                                         image={`http://localhost:5000/uploads/${item.photo}`}
                                         alt={item.name}
+                                        style={{ objectFit: 'cover' }}
                                     />
                                     <CardContent>
                                         <Typography variant="h6">{item.name}</Typography>
@@ -73,16 +73,15 @@ const LandingPage = () => {
                 </Container>
             </Box>
 
-            {/* Location Section */}
-            <Container id="location" sx={{ py: 8 }}>
+            {/* STRETCHED: maxWidth={false} */}
+            <Container id="location" maxWidth={false} sx={{ py: 8, px: 6 }}>
                 <Typography variant="h4" gutterBottom align="center">Visit Us</Typography>
                 <Typography variant="body1" align="center">
-                    We are located in the heart of Nueva Vizcaya[cite: 22]. 
+                    We are located in the heart of Nueva Vizcaya. 
                     Come visit us for a warm meal and friendly service!
                 </Typography>
             </Container>
 
-            {/* Footer / Social Media */}
             <Box sx={{ bgcolor: '#333', color: 'white', py: 4, textAlign: 'center' }}>
                 <Typography variant="h6">Follow Us</Typography>
                 <IconButton color="inherit"><FacebookIcon /></IconButton>

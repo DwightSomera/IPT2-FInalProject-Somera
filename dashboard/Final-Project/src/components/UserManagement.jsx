@@ -52,10 +52,10 @@ const UserManagement = () => {
     };
 
     return (
-        <Container sx={{ mt: 2 }}>
+        /* STRETCHED: maxWidth={false} and px: 4 */
+        <Container maxWidth={false} sx={{ mt: 2, px: 4 }}>
             <Typography variant="h5" gutterBottom color="secondary">User Management</Typography>
             
-            {/* ADD NEW STAFF FORM */}
             <Paper sx={{ p: 3, mb: 4, borderLeft: '4px solid #e65100' }}>
                 <Typography variant="h6" gutterBottom><PersonAddIcon sx={{ mr: 1, verticalAlign: 'middle' }} /> Register New Staff</Typography>
                 <Box component="form" onSubmit={handleAddUser} sx={{ display: 'flex', gap: 2, alignItems: 'center', mt: 2 }}>
@@ -92,7 +92,6 @@ const UserManagement = () => {
                 </Table>
             </Paper>
 
-            {/* EDIT DIALOG */}
             <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs">
                 <DialogTitle>Edit User: {selectedUser.username}</DialogTitle>
                 <DialogContent>
