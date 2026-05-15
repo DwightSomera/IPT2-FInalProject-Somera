@@ -3,19 +3,19 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-// Import your components
+// Import your pages and components
 import LandingPage from './pages/LandingPage';
-import Auth from './Auth';
-import MenuManagement from './components/MenuManagement';
+import Auth from './pages/Auth';
+import Dashboard from './pages/Dashboard'; // Correctly imported from pages folder
 
-// 1. Define the Style Guide (Colors, Typography, Components) 
+// 1. Define the Style Guide (Colors, Typography, Components) [cite: 25, 34]
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#e65100', // Deep Orange - represents appetizing tapsi branding 
+      main: '#e65100', // Deep Orange - represents appetizing tapsi branding [cite: 23, 24]
     },
     secondary: {
-      main: '#5d4037', // Rustic Brown - reflects local Nueva Vizcaya vibes 
+      main: '#5d4037', // Rustic Brown - reflects local Nueva Vizcaya vibes [cite: 22]
     },
     background: {
       default: '#fffdfa', // Cream white for a professional UI [cite: 25, 34]
@@ -36,7 +36,6 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* CssBaseline ensures consistent styling across browsers  */}
       <CssBaseline /> 
       <Router>
         <Routes>
@@ -46,10 +45,10 @@ function App() {
           {/* Admin Login/Sign-up Page [cite: 11] */}
           <Route path="/auth" element={<Auth />} />
 
-          {/* Protected Admin Panel for Menu Management [cite: 6, 12, 31] */}
+          {/* Protected Admin Panel Hub [cite: 6, 12, 13, 31] */}
           <Route 
             path="/dashboard" 
-            element={isAuthenticated() ? <MenuManagement /> : <Navigate to="/auth" />} 
+            element={isAuthenticated() ? <Dashboard /> : <Navigate to="/auth" />} 
           />
           
           {/* Catch-all route to redirect any unknown URLs to the Landing Page */}
