@@ -1,13 +1,15 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { 
   Table, TableBody, TableCell, TableHead, TableRow, 
   IconButton, Typography, Paper, Container, Tooltip,
   Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Box,
-  Select, MenuItem, FormControl, InputLabel, Divider
+  Select, MenuItem, FormControl, InputLabel, Divider, Stack
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import GroupIcon from '@mui/icons-material/Group';
 import axios from 'axios';
 
 const UserManagement = () => {
@@ -27,14 +29,14 @@ const UserManagement = () => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:5000/register', newUser);
-            alert("New staff member added!");
+            alert("New internal staff account initialized successfully!");
             setNewUser({ username: '', password: '' });
             fetchUsers();
-        } catch (err) { alert("Error adding user"); }
+        } catch (err) { alert("Error initializing staff credentials."); }
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm("Delete this account?")) {
+        if (window.confirm("Permanently erase this workspace account?")) {
             await axios.delete(`http://localhost:5000/api/users/${id}`);
             fetchUsers();
         }
@@ -52,39 +54,65 @@ const UserManagement = () => {
     };
 
     return (
-        /* STRETCHED: maxWidth={false} and px: 4 */
-        <Container maxWidth={false} sx={{ mt: 2, px: 4 }}>
-            <Typography variant="h5" gutterBottom color="secondary">User Management</Typography>
+        <Container maxWidth={false} sx={{ mt: 4, px: 4, pb: 6 }}>
+            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                <GroupIcon sx={{ color: '#4e342e', fontSize: '1.8rem' }} />
+                <Typography variant="h5" sx={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, color: '#4e342e', textTransform: 'uppercase' }}>
+                    Staff Account Controls
+                </Typography>
+            </Stack>
+            <Typography variant="body2" sx={{ fontFamily: "'Montserrat', sans-serif", color: '#6b6375', mb: 3 }}>
+                Provision new workspace roles and administer security credentials for internal employees.
+            </Typography>
             
-            <Paper sx={{ p: 3, mb: 4, borderLeft: '4px solid #e65100' }}>
-                <Typography variant="h6" gutterBottom><PersonAddIcon sx={{ mr: 1, verticalAlign: 'middle' }} /> Register New Staff</Typography>
-                <Box component="form" onSubmit={handleAddUser} sx={{ display: 'flex', gap: 2, alignItems: 'center', mt: 2 }}>
-                    <TextField size="small" label="Username" required value={newUser.username} onChange={(e) => setNewUser({...newUser, username: e.target.value})} />
-                    <TextField size="small" label="Initial Password" type="password" required value={newUser.password} onChange={(e) => setNewUser({...newUser, password: e.target.value})} />
-                    <Button variant="contained" type="submit">Add User</Button>
+            {/* ADD NEW STAFF FORM */}
+            <Paper elevation={2} sx={{ p: 4, mb: 5, borderRadius: '8px', borderLeft: '5px solid #bf360c', bgcolor: '#ffffff' }}>
+                <Typography variant="h6" sx={{ fontFamily: "'Merriweather', serif", fontWeight: 700, mb: 1, color: '#3e2723', display: 'flex', alignItems: 'center' }}>
+                    <PersonAddIcon sx={{ mr: 1, color: '#bf360c' }} /> Initialize Staff Gateway
+                </Typography>
+                <Box component="form" onSubmit={handleAddUser} sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', alignItems: 'center', mt: 3 }}>
+                    <TextField size="small" label="Employee Username" required value={newUser.username} 
+                        onChange={(e) => setNewUser({...newUser, username: e.target.value})} 
+                        InputLabelProps={{ sx: { fontFamily: "'Montserrat', sans-serif" } }}
+                    />
+                    <TextField size="small" label="Temporary Key Entry" type="password" required value={newUser.password} 
+                        onChange={(e) => setNewUser({...newUser, password: e.target.value})} 
+                        InputLabelProps={{ sx: { fontFamily: "'Montserrat', sans-serif" } }}
+                    />
+                    <Button variant="contained" type="submit" sx={{ bgcolor: '#4e342e', '&:hover': { bgcolor: '#bf360c' }, fontFamily: "'Montserrat', sans-serif", fontWeight: 600, py: 1, px: 3 }}>
+                        Provision Credentials
+                    </Button>
                 </Box>
             </Paper>
 
-            <Divider sx={{ mb: 4 }} />
-
-            <Typography variant="h6" gutterBottom>Existing Accounts</Typography>
-            <Paper elevation={3}>
+            <Typography variant="h6" gutterBottom sx={{ fontFamily: "'Merriweather', serif", fontWeight: 700, color: '#3e2723' }}>
+                Active System Operators
+            </Typography>
+            <Paper elevation={2} sx={{ borderRadius: '8px', overflow: 'hidden' }}>
                 <Table>
                     <TableHead>
-                        <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-                            <TableCell><strong>Username</strong></TableCell>
-                            <TableCell><strong>Role</strong></TableCell>
-                            <TableCell align="right"><strong>Actions</strong></TableCell>
+                        <TableRow sx={{ backgroundColor: '#4e342e' }}>
+                            <TableCell sx={{ color: '#fff', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, py: 2 }}>Workspace Username</TableCell>
+                            <TableCell sx={{ color: '#fff', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, py: 2 }}>Clearance Level</TableCell>
+                            <TableCell align="right" sx={{ color: '#fff', fontFamily: "'Montserrat', sans-serif", fontWeight: 600, py: 2, px: 4 }}>Operations</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {users.map((user) => (
-                            <TableRow key={user._id}>
-                                <TableCell>{user.username}</TableCell>
-                                <TableCell>{user.role || 'user'}</TableCell>
-                                <TableCell align="right">
-                                    <IconButton onClick={() => handleEditClick(user)} color="primary"><EditIcon /></IconButton>
-                                    <IconButton onClick={() => handleDelete(user._id)} color="error"><DeleteIcon /></IconButton>
+                            <TableRow key={user._id} sx={{ '&:hover': { bgcolor: '#fffdfa' } }}>
+                                <TableCell sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 600, color: '#3e2723' }}>{user.username}</TableCell>
+                                <TableCell sx={{ fontFamily: "'Montserrat', sans-serif" }}>
+                                    <Box component="span" sx={{ 
+                                        bgcolor: user.role === 'admin' ? 'rgba(191, 54, 12, 0.1)' : 'rgba(107, 99, 117, 0.1)',
+                                        color: user.role === 'admin' ? '#bf360c' : '#6b6375',
+                                        px: '10px', py: '4px', borderRadius: '12px', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase'
+                                    }}>
+                                        {user.role || 'user'}
+                                    </Box>
+                                </TableCell>
+                                <TableCell align="right" sx={{ px: 4 }}>
+                                    <IconButton onClick={() => handleEditClick(user)} color="primary" sx={{ mr: 1 }}><EditIcon /></IconButton>
+                                    <IconButton onClick={() => handleDelete(user._id)} sx={{ color: '#d32f2f' }}><DeleteIcon /></IconButton>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -92,22 +120,29 @@ const UserManagement = () => {
                 </Table>
             </Paper>
 
+            {/* EDIT DIALOG */}
             <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xs">
-                <DialogTitle>Edit User: {selectedUser.username}</DialogTitle>
+                <DialogTitle sx={{ fontFamily: "'Merriweather', serif", fontWeight: 700, color: '#4e342e', borderBottom: '1px solid #ddd', pb: 2 }}>
+                    Modify Authorization: {selectedUser.username}
+                </DialogTitle>
                 <DialogContent>
-                    <TextField fullWidth label="Username" margin="normal" value={selectedUser.username} onChange={(e) => setSelectedUser({...selectedUser, username: e.target.value})} />
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel>Role</InputLabel>
-                        <Select value={selectedUser.role} label="Role" onChange={(e) => setSelectedUser({...selectedUser, role: e.target.value})}>
-                            <MenuItem value="admin">Admin</MenuItem>
-                            <MenuItem value="user">User</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <TextField fullWidth label="New Password (Optional)" type="password" margin="normal" value={selectedUser.password} onChange={(e) => setSelectedUser({...selectedUser, password: e.target.value})} />
+                    <Box sx={{ mt: 1 }}>
+                        <TextField fullWidth label="Username Identity" margin="normal" value={selectedUser.username} onChange={(e) => setSelectedUser({...selectedUser, username: e.target.value})} />
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel id="dialog-role-label">System Access Clearance</InputLabel>
+                            <Select labelId="dialog-role-label" value={selectedUser.role} label="System Access Clearance" onChange={(e) => setSelectedUser({...selectedUser, role: e.target.value})}>
+                                <MenuItem value="admin">Admin (Full Terminal Override)</MenuItem>
+                                <MenuItem value="user">User (Kitchen Management Only)</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <TextField fullWidth label="Override System Password (Optional)" type="password" margin="normal" value={selectedUser.password} onChange={(e) => setSelectedUser({...selectedUser, password: e.target.value})} />
+                    </Box>
                 </DialogContent>
-                <DialogActions sx={{ p: 3 }}>
-                    <Button onClick={() => setOpen(false)}>Cancel</Button>
-                    <Button onClick={handleUpdate} variant="contained">Save Changes</Button>
+                <DialogActions sx={{ p: 3, borderTop: '1px solid #ddd' }}>
+                    <Button onClick={() => setOpen(false)} sx={{ fontFamily: "'Montserrat', sans-serif", color: '#6b6375' }}>Cancel</Button>
+                    <Button onClick={handleUpdate} variant="contained" sx={{ bgcolor: '#bf360c', '&:hover': { bgcolor: '#4e342e' }, fontFamily: "'Montserrat', sans-serif", fontWeight: 600 }}>
+                        Save Authority Changes
+                    </Button>
                 </DialogActions>
             </Dialog>
         </Container>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { TextField, Button, Paper, Typography, Container, Box } from '@mui/material';
+import { TextField, Button, Paper, Typography, Container, Box, Stack } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 
 const Auth = () => {
     const [mode, setMode] = useState('login'); 
@@ -28,19 +29,37 @@ const Auth = () => {
                 setMode('login');
             }
         } catch (err) {
-            alert(err.response?.data?.message || "Login failed. Please check your credentials.");
+            alert(err.response?.data?.message || "Login failed. Please verify your internal staff credentials.");
         }
     };
 
     return (
-        /* STRETCHED: maxWidth={false} ensures the background fills the screen */
-        <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-            <Paper elevation={3} sx={{ padding: '20px', borderTop: '4px solid #e65100', width: '100%', maxWidth: '400px' }}>
-                <Typography variant="h5" align="center" gutterBottom sx={{ fontWeight: 700 }}>
-                    {mode === 'login' ? "Staff Sign In" : "Reset Password"}
-                </Typography>
-                <Typography variant="body2" align="center" sx={{ mb: 2, color: 'text.secondary' }}>
-                    KuyaTabs Tapsihan - Internal Access Only
+        /* STRETCHED LAYOUT: Fill screen but center content Paper */
+        <Container maxWidth={false} sx={{ 
+            bgcolor: '#fffdfa', 
+            width: '100vw', 
+            height: '100vh', 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            p: 0, m: 0
+        }}>
+            <Paper elevation={4} sx={{ 
+                padding: '30px', 
+                borderTop: '5px solid #bf360c', 
+                width: '100%', 
+                maxWidth: '420px', 
+                borderRadius: '8px',
+                bgcolor: '#ffffff'
+            }}>
+                <Stack direction="row" spacing={1} justifyContent="center" alignItems="center" sx={{ mb: 1 }}>
+                    <RestaurantMenuIcon sx={{ color: '#bf360c', opacity: 0.6 }}/>
+                    <Typography variant="h5" align="center" sx={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, textTransform: 'uppercase', color: '#bf360c' }}>
+                        Internal Access
+                    </Typography>
+                </Stack>
+                <Typography variant="body2" align="center" sx={{ fontFamily: "'Montserrat', sans-serif", mb: 2, color: '#6b6375', fontWeight: 500 }}>
+                    KuyaTabs Tapsihan Portal - Log in below.
                 </Typography>
 
                 <form onSubmit={handleSubmit}>
@@ -48,6 +67,7 @@ const Auth = () => {
                         fullWidth label="Username" margin="normal" required
                         value={form.username}
                         onChange={(e) => setForm({...form, username: e.target.value})} 
+                        sx={{ fontFamily: "'Montserrat', sans-serif" }}
                     />
                     
                     {mode === 'login' && (
@@ -55,27 +75,36 @@ const Auth = () => {
                             fullWidth label="Password" type="password" margin="normal" required
                             value={form.password}
                             onChange={(e) => setForm({...form, password: e.target.value})} 
+                            sx={{ fontFamily: "'Montserrat', sans-serif" }}
                         />
                     )}
 
                     {mode === 'forgot' && (
                         <TextField 
-                            fullWidth label="New Password" type="password" margin="normal" required
+                            fullWidth label="New Access Key" type="password" margin="normal" required
                             value={form.newPassword}
                             onChange={(e) => setForm({...form, newPassword: e.target.value})} 
+                            sx={{ fontFamily: "'Montserrat', sans-serif" }}
                         />
                     )}
 
-                    <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: 2, py: 1.5 }}>
-                        {mode === 'login' ? "Login to Dashboard" : "Update Password"}
+                    <Button fullWidth variant="contained" type="submit" sx={{ 
+                        mt: 3, py: 1.8, 
+                        fontFamily: "'Montserrat', sans-serif", 
+                        fontWeight: 600, 
+                        bgcolor: '#4e342e',
+                        borderRadius: '4px',
+                        '&:hover': { bgcolor: '#bf360c' }
+                    }}>
+                        {mode === 'login' ? "Secure Staff Login" : "Update Credentials"}
                     </Button>
                 </form>
 
-                <Box sx={{ mt: 2, textAlign: 'center' }}>
+                <Box sx={{ mt: 3, textAlign: 'center', borderTop: '1px solid #ddd', pt: 2 }}>
                     {mode === 'login' ? (
-                        <Button size="small" onClick={() => setMode('forgot')}>Forgot Password?</Button>
+                        <Button size="small" onClick={() => setMode('forgot')} sx={{ color: '#6b6375', fontFamily: "'Montserrat', sans-serif" }}>Forgot Access Key?</Button>
                     ) : (
-                        <Button size="small" onClick={() => setMode('login')}>Back to Login</Button>
+                        <Button size="small" onClick={() => setMode('login')} sx={{ color: '#6b6375', fontFamily: "'Montserrat', sans-serif" }}>Back to Staff Sign In</Button>
                     )}
                 </Box>
             </Paper>

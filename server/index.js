@@ -55,7 +55,6 @@ app.post('/reset-password', async (req, res) => {
 
 // --- USER MANAGEMENT ROUTES ---
 
-// 1. READ: Get all users
 app.get('/api/users', async (req, res) => {
     try {
         const users = await User.find({}, '-password'); 
@@ -65,16 +64,13 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
-// 2. UPDATE: Full User Update (Username, Password, and Role)
 app.put('/api/users/:id', async (req, res) => {
     const { username, password, role } = req.body;
     try {
         let updateData = { username, role };
-        // Only update password if a new one is provided
         if (password && password.trim() !== "") {
             updateData.password = password;
         }
-
         const updatedUser = await User.findByIdAndUpdate(req.params.id, updateData, { returnDocument: 'after' });
         res.json(updatedUser);
     } catch (err) {
@@ -82,7 +78,6 @@ app.put('/api/users/:id', async (req, res) => {
     }
 });
 
-// 3. DELETE: Remove a user account
 app.delete('/api/users/:id', async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id);
@@ -92,13 +87,17 @@ app.delete('/api/users/:id', async (req, res) => {
     }
 });
 
-// --- MENU CRUD ROUTES ---
+// --- MENU CRUD ROUTES (UPDATED WITH CATEGORY) ---
 
+// 1. CREATE: Add dish with category
 app.post('/api/menu', upload.single('photo'), async (req, res) => {
     try {
-        const { name, description, price } = req.body;
+        const { name, description, price, category } = req.body;
         const newDish = new Menu({
-            name, description, price,
+            name,
+            description,
+            price,
+            category, // Storing category selection
             photo: req.file ? req.file.filename : '' 
         });
         await newDish.save();
@@ -108,6 +107,7 @@ app.post('/api/menu', upload.single('photo'), async (req, res) => {
     }
 });
 
+// 2. READ: Get all items
 app.get('/api/menu', async (req, res) => {
     try {
         const items = await Menu.find();
@@ -117,11 +117,13 @@ app.get('/api/menu', async (req, res) => {
     }
 });
 
+// 3. UPDATE: Edit dish details and category
 app.put('/api/menu/:id', upload.single('photo'), async (req, res) => {
     try {
-        const { name, description, price } = req.body;
-        let updateData = { name, description, price };
+        const { name, description, price, category } = req.body;
+        let updateData = { name, description, price, category };
         if (req.file) updateData.photo = req.file.filename;
+
         const updatedDish = await Menu.findByIdAndUpdate(req.params.id, updateData, { returnDocument: 'after' });
         res.json(updatedDish);
     } catch (err) {
@@ -129,6 +131,7 @@ app.put('/api/menu/:id', upload.single('photo'), async (req, res) => {
     }
 });
 
+// 4. DELETE: Remove dish
 app.delete('/api/menu/:id', async (req, res) => {
     try {
         await Menu.findByIdAndDelete(req.params.id);
