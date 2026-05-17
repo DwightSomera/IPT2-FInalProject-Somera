@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Box, Tabs, Tab, Button, AppBar, Toolbar, Typography, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';

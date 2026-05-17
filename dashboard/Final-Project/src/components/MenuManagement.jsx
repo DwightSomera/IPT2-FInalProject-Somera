@@ -1,18 +1,39 @@
+/* eslint-disable react-hooks/immutability */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { 
   TextField, Button, Paper, Typography, Container, 
   Table, TableBody, TableCell, TableHead, TableRow, IconButton, Box,
-  Select, MenuItem, FormControl, InputLabel, Stack, Grid // FIX: Added Grid here
+  Select, MenuItem, FormControl, InputLabel, Stack, Grid, Fab, Zoom 
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import axios from 'axios';
 
 const MenuManagement = () => {
     const [menuItems, setMenuItems] = useState([]);
     const [formData, setFormData] = useState({ name: '', description: '', price: '', category: 'Silog Meals', photo: null });
     const [editId, setEditId] = useState(null);
+    const [showScroll, setShowScroll] = useState(false);
+
+    // 1. Scroll-to-Top Logic
+    useEffect(() => {
+        const checkScroll = () => {
+            if (!showScroll && window.pageYOffset > 300) {
+                setShowScroll(true);
+            } else if (showScroll && window.pageYOffset <= 300) {
+                setShowScroll(false);
+            }
+        };
+        window.addEventListener('scroll', checkScroll);
+        return () => window.removeEventListener('scroll', checkScroll);
+    }, [showScroll]);
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     useEffect(() => {
         fetchMenu();
@@ -72,6 +93,7 @@ const MenuManagement = () => {
             category: item.category || 'Silog Meals', 
             photo: null 
         });
+        scrollToTop(); // Automatically brings Admin back to the form
     };
 
     const handleCancel = () => {
@@ -197,6 +219,15 @@ const MenuManagement = () => {
                     </TableBody>
                 </Table>
             </Paper>
+
+            {/* SCROLL TO TOP FAB (Admin Style) */}
+            <Zoom in={showScroll}>
+                <Box onClick={scrollToTop} role="presentation" sx={{ position: 'fixed', bottom: 32, right: 32, zIndex: 1000 }}>
+                    <Fab sx={{ bgcolor: '#4e342e', color: '#fff', '&:hover': { bgcolor: '#bf360c' } }} size="medium" aria-label="scroll back to top">
+                        <KeyboardArrowUpIcon />
+                    </Fab>
+                </Box>
+            </Zoom>
         </Container>
     );
 };
