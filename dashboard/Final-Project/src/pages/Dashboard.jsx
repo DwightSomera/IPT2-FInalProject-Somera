@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Tabs, Tab, Button, AppBar, Toolbar, Typography, Stack, Container } from '@mui/material';
+import { Box, Tabs, Tab, Button, AppBar, Toolbar, Typography, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -23,29 +23,59 @@ const Dashboard = () => {
 
     return (
         <Box sx={{ width: '100%', minHeight: '100vh', bgcolor: '#fffdfa' }}>
-            {/* PROFESSIONAL ADMIN NAVBAR - Stretched */}
+            {/* PROFESSIONAL ADMIN NAVBAR - Added more vertical space */}
             <AppBar position="static" elevation={0} sx={{ bgcolor: '#bf360c' }}>
-                <Toolbar sx={{ px: 4, display: 'flex', justifyContent: 'space-between' }}>
-                    <Stack direction="row" spacing={1} alignItems="center">
-                        <RestaurantMenuIcon sx={{ color: '#fff', opacity: 0.8 }}/>
-                        <Typography variant="h6" sx={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, color: '#fff', letterSpacing: '0.5px' }}>
+                <Toolbar sx={{ 
+                    px: 4, 
+                    py: 2.5, // INCREASED vertical padding (top and bottom)
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    minHeight: '110px' // INCREASED total height from 95px to 110px
+                }}>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                        {/* BRAND LOGO */}
+                        <Box 
+                            component="img"
+                            src="/KuyaTabs Logo.jpg" 
+                            alt="Logo"
+                            sx={{ 
+                                height: 60, // Slightly bigger logo to match taller bar
+                                width: 60,  
+                                borderRadius: '50%', 
+                                objectFit: 'cover',
+                                border: '2px solid rgba(255,255,255,0.8)',
+                                boxShadow: '0px 2px 6px rgba(0,0,0,0.2)'
+                            }}
+                        />
+                        {/* Title Alignment maintained */}
+                        <Typography variant="h5" sx={{ 
+                            fontFamily: "'Oswald', sans-serif", 
+                            fontWeight: 700, 
+                            color: '#fff', 
+                            letterSpacing: '1px',
+                            textTransform: 'uppercase',
+                            lineHeight: 1,
+                            mt: 0.8, 
+                            display: 'inline-flex',
+                            alignItems: 'center'
+                        }}>
                             KUYATABS | MANAGEMENT
                         </Typography>
                     </Stack>
                     
                     <Stack direction="row" spacing={2} alignItems="center">
-                        <Stack direction="row" spacing={1} alignItems="center" sx={{ bgcolor: 'rgba(255,255,255,0.1)', p: '8px 15px', borderRadius: '20px' }}>
+                        <Stack direction="row" spacing={1} alignItems="center" sx={{ bgcolor: 'rgba(255,255,255,0.1)', p: '10px 20px', borderRadius: '25px' }}>
                             <PersonIcon sx={{ color: '#fff' }}/>
                             <Typography sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 500, color: '#fff' }}>
                                 Welcome, {userName}! ({role})
                             </Typography>
                         </Stack>
-                        <Button color="inherit" onClick={handleLogout} sx={{ fontFamily: "'Montserrat', sans-serif" }}>Logout</Button>
+                        <Button color="inherit" onClick={handleLogout} sx={{ fontFamily: "'Montserrat', sans-serif", ml: 1 }}>Logout</Button>
                     </Stack>
                 </Toolbar>
             </AppBar>
             
-            {/* MANAGEMENT TABS SELECTOR - Centered Style */}
+            {/* MANAGEMENT TABS SELECTOR */}
             <Box sx={{ borderBottom: 1, borderColor: '#ddd', bgcolor: '#ffffff', py: 1, display: 'flex', justifyContent: 'center' }}>
                 <Tabs value={value} onChange={(e, newValue) => setValue(newValue)} sx={{ 
                     '.MuiTabs-indicator': { bgcolor: '#bf360c', height: '3px' },
@@ -62,7 +92,7 @@ const Dashboard = () => {
                 </Tabs>
             </Box>
 
-            {/* TAB CONTENT PANEL - Applied previous stretching logic */}
+            {/* TAB CONTENT PANEL */}
             <Box maxWidth={false} sx={{ mt: 0 }}>
                 {value === 0 && <MenuManagement />}
                 {value === 1 && role === 'admin' && <UserManagement />}
