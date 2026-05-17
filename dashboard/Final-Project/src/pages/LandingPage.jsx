@@ -60,8 +60,6 @@ const LandingPage = () => {
             {/* 1. PROFESSIONAL NAVBAR */}
             <AppBar position="sticky" elevation={0} sx={{ bgcolor: '#4e342e', borderBottom: '2px solid #bf360c' }}>
                 <Toolbar sx={{ px: 4, py: 1.5, display: 'flex', justifyContent: 'space-between', minHeight: '95px' }}>
-                    
-                    {/* Brand Identity Stack */}
                     <Stack direction="row" spacing={2} alignItems="center">
                         <Box 
                             component="img"
@@ -112,7 +110,7 @@ const LandingPage = () => {
                 </Toolbar>
             </AppBar>
 
-            {/* 2. ELEGANT HERO SECTION */}
+            {/* 2. HERO SECTION */}
             <Box sx={{ 
                 bgcolor: '#bf360c', color: 'white', py: 12, textAlign: 'center', position: 'relative', overflow: 'hidden'
             }}>
@@ -128,23 +126,38 @@ const LandingPage = () => {
                 </Typography>
             </Box>
 
-            {/* 3. CURATED ABOUT SECTION */}
-            <Container id="about" maxWidth={false} sx={{ py: 12, px: 6, bgcolor: '#fffdfa' }}>
-                <Box sx={{ width: 'fit-content', mx: 'auto', textAlign: 'center', mb: 4 }}>
+            {/* 3. CURATED ABOUT SECTION - ENRICHED TEXT CONTENT */}
+            <Container id="about" maxWidth={false} sx={{ py: 14, px: 6, bgcolor: '#fffdfa' }}>
+                <Box sx={{ width: 'fit-content', mx: 'auto', textAlign: 'center', mb: 6 }}>
                     <Typography variant="h4" sx={{ fontFamily: "'Merriweather', serif", fontWeight: 700, color: '#3e2723', display: 'inline-block' }}>
                         Our Story
                     </Typography>
                     <Box sx={{ width: '100%', height: '3px', bgcolor: '#bf360c', mt: 1 }} />
                 </Box>
-                <Typography variant="body1" align="center" sx={{ maxWidth: 900, mx: 'auto', color: '#6b6375', fontFamily: "'Montserrat', sans-serif", fontSize: '1.15rem', lineHeight: '2', fontStyle: 'italic' }}>
-                    KuyaTabs Tapsihan was born from a deep respect for the culinary heritage of Nueva Vizcaya. 
-                    What began as a humble vision in the heart of Solano has grown into a cherished destination 
-                    for those seeking the perfect balance of tradition and taste. Our journey is defined by a 
-                    unwavering commitment to the "Golden Standard" of Filipino comfort—perfectly tender cured beef, 
-                    signature smoky garlic rice, and farm-fresh eggs served with a touch of local heart.
-                </Typography>
-                <Box sx={{ mt: 3, textAlign: 'center' }}>
-                    <RestaurantMenuIcon sx={{ color: '#bf360c', fontSize: '3rem', opacity: 0.5 }} />
+                
+                <Stack spacing={4} sx={{ maxWidth: 1000, mx: 'auto' }}>
+                    <Typography variant="body1" align="center" sx={{ color: '#4e342e', fontFamily: "'Montserrat', sans-serif", fontSize: '1.25rem', lineHeight: '2', fontWeight: 500 }}>
+                        KuyaTabs Tapsihan was born from a deep respect for the culinary heritage of Nueva Vizcaya. 
+                        What began as a humble vision in the heart of Solano has grown into a cherished destination 
+                        for those seeking the perfect balance of tradition and taste. 
+                    </Typography>
+
+                    <Typography variant="body1" align="center" sx={{ color: '#6b6375', fontFamily: "'Montserrat', sans-serif", fontSize: '1.15rem', lineHeight: '1.9', fontStyle: 'italic' }}>
+                        Our journey is defined by an unwavering commitment to the "Golden Standard" of Filipino comfort—perfectly tender cured beef, 
+                        signature smoky garlic rice, and farm-fresh eggs served with a touch of local heart. At the core of every plate is our 
+                        cherished family marinade, a secret blend of spices passed down through generations that captures the authentic, 
+                        earthy soul of Solano's food culture.
+                    </Typography>
+
+                    <Typography variant="body1" align="center" sx={{ color: '#4e342e', fontFamily: "'Montserrat', sans-serif", fontSize: '1.15rem', lineHeight: '1.9' }}>
+                        We believe that a great meal does more than just satisfy hunger; it builds community and creates lasting memories. 
+                        Whether you are starting your morning with a steaming cup of coffee or ending a long day with a sizzling solo meal, 
+                        we welcome you with the same "Local Love" that fueled our very first cook.
+                    </Typography>
+                </Stack>
+
+                <Box sx={{ mt: 5, textAlign: 'center' }}>
+                    <RestaurantMenuIcon sx={{ color: '#bf360c', fontSize: '3.5rem', opacity: 0.4 }} />
                 </Box>
             </Container>
 
@@ -217,7 +230,7 @@ const LandingPage = () => {
                 <Typography variant="body2" sx={{ fontFamily: "'Montserrat', sans-serif", opacity: 0.8, fontSize: '0.85rem' }}>© 2026 KuyaTabs Tapsihan. All Rights Reserved. Solano, Nueva Vizcaya Branch.</Typography>
             </Box>
 
-            {/* SCROLL TO TOP FAB (Public Style) */}
+            {/* SCROLL TO TOP FAB */}
             <Zoom in={showScroll}>
                 <Box onClick={scrollToTop} role="presentation" sx={{ position: 'fixed', bottom: 32, right: 32, zIndex: 1000 }}>
                     <Fab sx={{ bgcolor: '#bf360c', color: '#fff', '&:hover': { bgcolor: '#4e342e' }, boxShadow: '0px 4px 15px rgba(0,0,0,0.3)' }} size="medium" aria-label="scroll back to top">
