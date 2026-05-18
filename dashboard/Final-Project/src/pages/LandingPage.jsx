@@ -271,7 +271,7 @@ const LandingPage = () => {
                                 <Stack direction="row" spacing={1.5} justifyContent="center" sx={{ mt: 1, maxWidth: '430px', mx: 'auto' }}>
                                     <AccessTimeIcon sx={{ color: '#bf360c', mt: 0.5 }} />
                                     <Typography variant="h6" sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 500 }}>
-                                        Mon - Sun: 7:00 AM — 10:00 PM
+                                        Mon - Sun: 7:00 AM — 8:00 PM
                                     </Typography>
                                 </Stack>
                             </Box>
@@ -334,7 +334,7 @@ const LandingPage = () => {
                                 <Box>
                                     <Typography variant="overline" sx={{ color: '#bf360c', fontWeight: 700, letterSpacing: '2px' }}>Service</Typography>
                                     <Typography variant="body2" sx={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 600, mt: 1 }}>
-                                        Open Daily: 7:00 AM — 10:00 PM
+                                        Open Daily: 7:00 AM — 8:00 PM
                                     </Typography>
                                 </Box>
                             </Stack>
