@@ -189,6 +189,8 @@ const LandingPage = () => {
                 </Box>
             </Container>
 
+
+
             {/* 4. MENU SECTION */}
             <Box id="menu" sx={{ bgcolor: 'rgba(244, 243, 236, 0.9)', py: 10, backdropFilter: 'blur(5px)' }}>
                 <Container maxWidth={false} sx={{ px: 6 }}>
@@ -220,6 +222,8 @@ const LandingPage = () => {
                     </Grid>
                 </Container>
             </Box>
+
+
 
             {/* 5. LOCALISED LOCATION SECTION */}
             <Box id="location" sx={{ 
